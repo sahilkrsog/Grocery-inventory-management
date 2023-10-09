@@ -1,4 +1,4 @@
-import React, { lazy, useState, useEffect, Suspense } from "react";
+import React, { lazy, useState, useEffect, Suspense, useCallback } from "react";
 import { Table, Card, Button, Divider } from "antd";
 import "./App.css";
 
@@ -6,8 +6,8 @@ function App() {
   const ItemDrawer = lazy(() => import("./component/drawer"));
   const [openModel, setOpenModel] = useState(false);
   const [items, setItems] = useState(null);
+
   useEffect(() => {
-    console.log("hello");
     fetchItems();
   }, []);
 
@@ -64,7 +64,7 @@ function App() {
     }
   };
 
-  const addItem = async (item) => {
+  const addItem = useCallback(async (item) => {
     try {
       await fetch("http://localhost:3000/item", {
         method: "POST",
@@ -75,10 +75,12 @@ function App() {
       });
 
       setOpenModel(false);
+      fetchItems();
     } catch (error) {
       console.log(error);
     }
-  };
+  }, []);
+
   return (
     <>
       <div className="App">
