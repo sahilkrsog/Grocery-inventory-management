@@ -13,6 +13,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("App is working properly...");
 });
+
 app.post("/item", addItem);
 app.get("/item", getItems);
 
